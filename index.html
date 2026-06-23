@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Your Perfect Match</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0a1e;
+    --dark: #1a1230;
+    --card: #1e1535;
+    --border: #2d2150;
+    --pink: #ff4d8d;
+    --pink-dark: #c4306a;
+    --pink-glow: rgba(255,77,141,0.15);
+    --purple: #9b59f5;
+    --white: #f0e6ff;
+    --muted: #8b7aa8;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(15,10,30,0.9);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo { font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, var(--pink), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff;
+    border: none;
+    padding: 9px 22px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 110px 24px 90px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -150px; left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(155,89,245,0.15) 0%, rgba(255,77,141,0.08) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Floating hearts */
+  .hearts { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
+  .heart { position: absolute; font-size: 1.4rem; animation: floatUp 6s infinite; opacity: 0; }
+  .heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+  .heart:nth-child(2) { left: 25%; animation-delay: 1.5s; font-size: 1rem; }
+  .heart:nth-child(3) { left: 50%; animation-delay: 3s; font-size: 1.8rem; }
+  .heart:nth-child(4) { left: 70%; animation-delay: 0.8s; font-size: 1.1rem; }
+  .heart:nth-child(5) { left: 88%; animation-delay: 2.2s; }
+  @keyframes floatUp {
+    0% { transform: translateY(400px); opacity: 0; }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.3; }
+    100% { transform: translateY(-100px); opacity: 0; }
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--pink-glow);
+    border: 1px solid var(--pink);
+    color: var(--pink);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1.5px;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p { font-size: 1.1rem; color: var(--muted); max-width: 540px; margin: 0 auto 44px; line-height: 1.7; }
+
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff;
+    border: none;
+    padding: 15px 36px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+    box-shadow: 0 4px 20px rgba(255,77,141,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(255,77,141,0.45); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--border);
+    padding: 15px 36px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--pink); color: var(--pink); }
+
+  /* STATS */
+  .stats {
+    display: flex;
+    justify-content: center;
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat { padding: 36px 52px; text-align: center; border-right: 1px solid var(--border); flex: 1; min-width: 150px; }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, var(--pink), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+
+  /* HOW IT WORKS */
+  .how { padding: 90px 24px; max-width: 1000px; margin: 0 auto; }
+  .section-label { text-align: center; font-size: 0.75rem; color: var(--pink); font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; margin-bottom: 56px; letter-spacing: -0.5px; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+  .step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 28px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .step:hover { border-color: var(--pink); transform: translateY(-5px); }
+  .step-num {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: 900;
+    margin: 0 auto 20px;
+  }
+  .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+  .step p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+  /* FEATURES */
+  .features { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 90px 24px; }
+  .features-inner { max-width: 1100px; margin: 0 auto; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .feature-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .feature-card:hover { border-color: var(--purple); transform: translateY(-4px); }
+  .feature-icon { font-size: 2rem; margin-bottom: 16px; }
+  .feature-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+  .feature-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+  /* TESTIMONIALS */
+  .testimonials { padding: 90px 24px; max-width: 1000px; margin: 0 auto; }
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .testi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+  }
+  .testi-stars { color: #ffd700; font-size: 1rem; margin-bottom: 12px; }
+  .testi-text { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+  .testi-author { font-size: 0.85rem; font-weight: 700; color: var(--pink); }
+
+  /* FINAL CTA */
+  .final-cta {
+    text-align: center;
+    padding: 110px 24px;
+    background: radial-gradient(ellipse at center, rgba(155,89,245,0.12) 0%, rgba(255,77,141,0.06) 40%, transparent 70%);
+    border-top: 1px solid var(--border);
+  }
+  .final-cta h2 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; margin-bottom: 16px; letter-spacing: -1px; }
+  .final-cta p { color: var(--muted); font-size: 1.05rem; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .final-cta .btn-primary { font-size: 1.1rem; padding: 17px 44px; }
+
+  footer { text-align: center; padding: 28px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; }
+
+  @media (max-width: 700px) {
+    nav { padding: 14px 20px; }
+    .stat { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">💘 LoveMatch</div>
+  <a href="https://t.taffizerq.com/click?pid=7562&offer_id=2310" target="_blank" class="nav-cta">Join Free</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hearts">
+    <span class="heart">💗</span>
+    <span class="heart">💕</span>
+    <span class="heart">❤️</span>
+    <span class="heart">💖</span>
+    <span class="heart">💝</span>
+  </div>
+  <div class="hero-badge">💘 Over 50 Million Happy Couples</div>
+  <h1>Find Your<br><span>Perfect Match</span><br>Today</h1>
+  <p>Join millions of people who found real love online. Smart matching, genuine connections, and a safe space to meet someone special.</p>
+  <div class="hero-btns">
+    <a href="https://t.taffizerq.com/click?pid=7562&offer_id=2310" target="_blank" class="btn-primary">💘 Start for Free</a>
+    <a href="https://t.taffizerq.com/click?pid=7562&offer_id=2310" target="_blank" class="btn-secondary">See how it works →</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">50M+</div><div class="stat-label">Active Members</div></div>
+  <div class="stat"><div class="stat-num">2M+</div><div class="stat-label">Couples Matched</div></div>
+  <div class="stat"><div class="stat-num">150+</div><div class="stat-label">Countries</div></div>
+  <div class="stat"><div class="stat-num">Free</div><div class="stat-label">To Join</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">Find love in 3 easy steps</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Create Your Profile</h3>
+      <p>Sign up for free in seconds. Add your interests, personality, and what you're looking for in a partner.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Get Smart Matches</h3>
+      <p>Our AI-powered algorithm finds compatible matches based on your personality, values, and preferences.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Start Connecting</h3>
+      <p>Chat, video call, and meet people who truly match your vibe. Real connections, real relationships.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">❤️</div>
+      <h3>Find Your Match</h3>
+      <p>Thousands of people find their perfect partner every single day. Your love story starts here.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-inner">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Why people love LoveMatch</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>AI Smart Matching</h3>
+        <p>Our advanced algorithm analyzes 100+ compatibility factors to find your most compatible matches every day.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Safe & Verified</h3>
+        <p>Every profile is verified. Your privacy is protected with bank-level encryption and strict community guidelines.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Real-Time Chat</h3>
+        <p>Message matches instantly with text, voice notes, photos, and video calls — all in one secure place.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Global Community</h3>
+        <p>Connect with singles from over 150 countries. Whether local or worldwide, your match is out there.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Notifications</h3>
+        <p>Never miss a match. Get real-time alerts when someone likes your profile or sends you a message.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Interest Filters</h3>
+        <p>Filter by age, location, hobbies, religion, lifestyle and more to find exactly who you're looking for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label">Success Stories</div>
+  <h2 class="section-title">Real people, real love</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"I never thought I'd find love online but here we are — engaged after meeting on LoveMatch 8 months ago. Best decision of my life!"</p>
+      <div class="testi-author">— James, 29 · London</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The matching system is incredibly accurate. Met my girlfriend within 2 weeks of joining. We've been together for over a year now."</p>
+      <div class="testi-author">— Marcus, 34 · New York</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Safe, easy to use, and it actually works. I was skeptical at first but the quality of matches blew me away. Highly recommend!"</p>
+      <div class="testi-author">— Ahmed, 27 · Dubai</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Your love story<br>starts today 💘</h2>
+  <p>Join over 50 million singles already on LoveMatch. It's completely free to get started.</p>
+  <a href="https://t.taffizerq.com/click?pid=7562&offer_id=2310" target="_blank" class="btn-primary">💘 Create Free Account</a>
+</section>
+
+<footer>
+  © 2026 LoveMatch · This page contains an affiliate link · Privacy Policy · Terms of Service
+</footer>
+
+</body>
+</html>
